@@ -35,5 +35,7 @@ namespace Smelter
 
         public static TokenType GetIdentifier(string identifier) =>
             keywords.ContainsKey(identifier) ? keywords[identifier] : TokenType.Identifier;
+
+        public override string ToString() => string.Format("{0,20}{1,10}", Type, Literal);
     }
 }

@@ -74,9 +74,19 @@ namespace Smelter
         public Token NextToken()
         {
             SkipWhiteSpaces();
+            Token token;
 
-            var token = tokenTypes.ContainsKey(character) ?
-                tokenTypes[character]() : GetHandledToken();
+            if (tokenTypes.ContainsKey(character))
+                token = tokenTypes[character]();
+            else
+            {
+                if (IsLetter())
+                    return GetIdentifierToken();
+                else if (IsDigit())
+                    return new Token(TokenType.Integer, ReadNumber());
+                else
+                    token = new Token(TokenType.Unknown, character);
+            }
 
             ReadChar();
             return token;
@@ -87,16 +97,6 @@ namespace Smelter
             while (character == ' ' || character == '\t' ||
                 character == '\n' || character == '\r')
                 ReadChar();
-        }
-
-        private Token GetHandledToken()
-        {
-            if (IsLetter())
-                return GetIdentifierToken();
-            else if (IsDigit())
-                return new Token(TokenType.Integer, ReadNumber());
-            else
-                return new Token(TokenType.Unknown, character);
         }
 
         private Token GetIdentifierToken()
