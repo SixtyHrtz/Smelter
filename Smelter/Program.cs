@@ -1,5 +1,4 @@
-﻿using Smelter.Enums;
-using System;
+﻿using System;
 
 namespace Smelter
 {
@@ -11,15 +10,10 @@ namespace Smelter
             {
                 Console.Write(">> ");
                 var lexer = new Lexer(Console.ReadLine());
+                var program = new Parser(lexer).Parse();
 
-                Token token;
-                Console.WriteLine("{0,20}{1,10}", "[Token]", "[Literal]");
-                do
-                {
-                    token = lexer.NextToken();
-                    Console.WriteLine(token.ToString());
-                }
-                while (token.Type != TokenType.EndOfFile);
+                foreach (var statement in program.Statements)
+                    Console.WriteLine(statement.ToString());
             }
         }
     }
