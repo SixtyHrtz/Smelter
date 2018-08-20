@@ -18,10 +18,7 @@ namespace Smelter.AST.Statements
         //    return new Return(value);
         //}
 
-        public override string ToString()
-        {
-            string value = (Value == null) ? "null" : Value.ToString();
-            return $"[{Token} = {value}]";
-        }
+        public override string ToString() =>
+            $"{Token.Literal} {StringHelper.DefaultOrNull(Value)};";
     }
 }

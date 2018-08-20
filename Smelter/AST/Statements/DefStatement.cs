@@ -11,10 +11,7 @@ namespace Smelter.AST.Statements
 
         public DefStatement(Token token) => Token = token;
 
-        public override string ToString()
-        {
-            string value = (Value == null) ? "null" : Value.ToString();
-            return $"[{Token} {Name} = {value}]";
-        }
+        public override string ToString() =>
+            $"{Token.Literal} {Name} = {StringHelper.DefaultOrNull(Value)};";
     }
 }

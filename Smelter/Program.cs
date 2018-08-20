@@ -20,8 +20,7 @@ namespace Smelter
                     continue;
                 }
 
-                foreach (var statement in program.Statements)
-                    Console.WriteLine(statement.ToString());
+                Console.Write(program.ToString());
             }
         }
     }

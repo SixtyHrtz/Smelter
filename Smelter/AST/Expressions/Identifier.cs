@@ -13,6 +13,6 @@ namespace Smelter.AST.Expressions
             Value = token.Literal;
         }
 
-        public override string ToString() => $"[{Token} = {Value}]";
+        public override string ToString() => Value;
     }
 }
