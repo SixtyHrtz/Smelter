@@ -2,6 +2,7 @@
 using Smelter.AbstractSyntaxTree.Statements;
 using Smelter.Enums;
 using Smelter.Interfaces;
+using System.Collections.Generic;
 
 namespace Smelter
 {
@@ -12,9 +13,13 @@ namespace Smelter
         private Token token;
         private Token nextToken;
 
+        public List<string> Errors { get; }
+
         public Parser(Lexer lexer)
         {
             this.lexer = lexer;
+
+            Errors = new List<string>();
 
             NextToken();
             NextToken();
@@ -38,9 +43,15 @@ namespace Smelter
             }
             else
             {
-                //AddError(tokenType);
+                AddError(type);
                 return false;
             }
+        }
+
+        private void AddError(TokenType type)
+        {
+            var message = $"Ожидался {type}, но найден {nextToken.Type}.";
+            Errors.Add(message);
         }
 
         public SmeltProgram Parse()

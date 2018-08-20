@@ -10,7 +10,15 @@ namespace Smelter
             {
                 Console.Write(">> ");
                 var lexer = new Lexer(Console.ReadLine());
-                var program = new Parser(lexer).Parse();
+                var parser = new Parser(lexer);
+                var program = parser.Parse();
+
+                if (parser.Errors.Count > 0)
+                {
+                    foreach (var error in parser.Errors)
+                        Console.WriteLine($"Ошибка: {error}");
+                    continue;
+                }
 
                 foreach (var statement in program.Statements)
                     Console.WriteLine(statement.ToString());
