@@ -1,7 +1,7 @@
-﻿using Smelter.AbstractSyntaxTree.Expressions;
+﻿using Smelter.AST.Expressions;
 using Smelter.Interfaces;
 
-namespace Smelter.AbstractSyntaxTree.Statements
+namespace Smelter.AST.Statements
 {
     public class DefStatement : IStatement
     {

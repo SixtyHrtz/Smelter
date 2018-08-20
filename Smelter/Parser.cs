@@ -1,7 +1,8 @@
-﻿using Smelter.AbstractSyntaxTree.Expressions;
-using Smelter.AbstractSyntaxTree.Statements;
+﻿using Smelter.AST.Expressions;
+using Smelter.AST.Statements;
 using Smelter.Enums;
 using Smelter.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Smelter
@@ -76,6 +77,8 @@ namespace Smelter
             {
                 case TokenType.Define:
                     return ParseDefStatement();
+                case TokenType.Return:
+                    return ParseRetStatement();
                 default:
                     return null;
             }
@@ -98,6 +101,24 @@ namespace Smelter
                 NextToken();
 
             //NextToken();
+            //statement.Value = ParseExpression(Precedence.Lowest);
+
+            //if (!NextToken(TokenType.Semicolon))
+            //    return null;
+
+            return statement;
+        }
+
+        private IStatement ParseRetStatement()
+        {
+            var statement = new RetStatement(token);
+
+            NextToken();
+
+            // TODO
+            while (!CurrentTokenIs(TokenType.Semicolon))
+                NextToken();
+
             //statement.Value = ParseExpression(Precedence.Lowest);
 
             //if (!NextToken(TokenType.Semicolon))

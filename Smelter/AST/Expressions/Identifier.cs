@@ -1,6 +1,6 @@
 ﻿using Smelter.Interfaces;
 
-namespace Smelter.AbstractSyntaxTree.Expressions
+namespace Smelter.AST.Expressions
 {
     public class Identifier : IExpression
     {
