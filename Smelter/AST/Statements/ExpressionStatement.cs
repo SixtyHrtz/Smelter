@@ -9,6 +9,9 @@ namespace Smelter.AST.Statements
 
         public ExpressionStatement(Token token) => Token = token;
 
+        public ExpressionStatement(Token token, IExpression expression) :
+            this(token) => Expression = expression;
+
         //public Object Evaluate(Memory memory)
         //{
         //    return Expression.Evaluate(memory);

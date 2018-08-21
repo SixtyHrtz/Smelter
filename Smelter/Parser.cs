@@ -2,17 +2,22 @@
 using Smelter.AST.Statements;
 using Smelter.Enums;
 using Smelter.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace Smelter
 {
     public class Parser
     {
+        delegate IExpression PrefixParseMethod();
+        delegate IExpression InfixParseMethod(IExpression expression);
+
         private Lexer lexer;
 
         private Token token;
         private Token nextToken;
+
+        private readonly Dictionary<TokenType, PrefixParseMethod> prefixParseMethods;
+        private readonly Dictionary<TokenType, InfixParseMethod> infixParseMethods;
 
         public List<string> Errors { get; }
 
@@ -21,6 +26,11 @@ namespace Smelter
             this.lexer = lexer;
 
             Errors = new List<string>();
+
+            prefixParseMethods = new Dictionary<TokenType, PrefixParseMethod>()
+            {
+                { TokenType.Identifier, ParseIdentifier }
+            };
 
             NextToken();
             NextToken();
@@ -80,7 +90,7 @@ namespace Smelter
                 case TokenType.Return:
                     return ParseRetStatement();
                 default:
-                    return null;
+                    return ParseExpressionStatement(); ;
             }
         }
 
@@ -126,5 +136,36 @@ namespace Smelter
 
             return statement;
         }
+
+        private IStatement ParseExpressionStatement() =>
+            new ExpressionStatement(token, ParseExpression(Precedence.Lowest));
+
+        private IExpression ParseExpression(Precedence lowest)
+        {
+            var method = prefixParseMethods[token.Type];
+
+            if (method == null)
+            {
+                //AddPrefixError(token.Type);
+                return null;
+            }
+
+            var leftExpression = method();
+
+            //while (!NextTokenIs(Token.SEMICOLON) &&
+            //       precedence < NextPrecedenceIs())
+            //{
+            //    InfixParseMethod infix = infixParseMethods[nextToken.Type];
+            //    if (infix == null)
+            //        return leftExpression;
+
+            //    NextToken();
+            //    leftExpression = infix(leftExpression);
+            //}
+
+            return leftExpression;
+        }
+
+        private IExpression ParseIdentifier() => new Identifier(token);
     }
 }
