@@ -2,6 +2,7 @@
 using Smelter.AST.Statements;
 using Smelter.Enums;
 using Smelter.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Smelter
@@ -29,7 +30,8 @@ namespace Smelter
 
             prefixParseMethods = new Dictionary<TokenType, PrefixParseMethod>()
             {
-                { TokenType.Identifier, ParseIdentifier }
+                { TokenType.Identifier, ParseIdentifier },
+                { TokenType.Integer, ParseIntLiteral }
             };
 
             NextToken();
@@ -58,6 +60,8 @@ namespace Smelter
                 return false;
             }
         }
+
+        private void AddError(string message) => Errors.Add(message);
 
         private void AddError(TokenType type)
         {
@@ -90,7 +94,7 @@ namespace Smelter
                 case TokenType.Return:
                     return ParseRetStatement();
                 default:
-                    return ParseExpressionStatement(); ;
+                    return ParseExpressionStatement();
             }
         }
 
@@ -167,5 +171,20 @@ namespace Smelter
         }
 
         private IExpression ParseIdentifier() => new Identifier(token);
+
+        private IExpression ParseIntLiteral()
+        {
+            var literal = new IntLiteral(token);
+
+            if (!int.TryParse(token.Literal, out int value))
+            {
+                string msg = $"Не удалось привести {token.Literal} к целому числу.";
+                AddError(msg);
+                return null;
+            }
+
+            literal.Value = value;
+            return literal;
+        }
     }
 }
