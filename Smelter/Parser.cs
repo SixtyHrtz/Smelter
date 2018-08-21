@@ -31,7 +31,9 @@ namespace Smelter
             prefixParseMethods = new Dictionary<TokenType, PrefixParseMethod>()
             {
                 { TokenType.Identifier, ParseIdentifier },
-                { TokenType.Integer, ParseIntLiteral }
+                { TokenType.Integer, ParseIntLiteral },
+                { TokenType.Bang, ParsePrefixExpression },
+                { TokenType.Minus, ParsePrefixExpression }
             };
 
             NextToken();
@@ -66,6 +68,12 @@ namespace Smelter
         private void AddError(TokenType type)
         {
             var message = $"Ожидался {type}, но найден {nextToken.Type}.";
+            Errors.Add(message);
+        }
+
+        private void AddPrefixMethodError(TokenType type)
+        {
+            var message = $"Для токена {type} не найдены подходящие префиксные методы!";
             Errors.Add(message);
         }
 
@@ -150,7 +158,7 @@ namespace Smelter
 
             if (method == null)
             {
-                //AddPrefixError(token.Type);
+                AddPrefixMethodError(token.Type);
                 return null;
             }
 
@@ -185,6 +193,16 @@ namespace Smelter
 
             literal.Value = value;
             return literal;
+        }
+
+        private IExpression ParsePrefixExpression()
+        {
+            var expression = new PrefixExpression(token);
+
+            NextToken();
+            expression.Right = ParseExpression(Precedence.Prefix);
+
+            return expression;
         }
     }
 }
