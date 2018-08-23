@@ -2,7 +2,6 @@
 using Smelter.AST.Statements;
 using Smelter.Enums;
 using Smelter.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace Smelter
@@ -38,7 +37,8 @@ namespace Smelter
                 { TokenType.False, ParseBoolLiteral },
                 { TokenType.Bang, ParsePrefixExpression },
                 { TokenType.Minus, ParsePrefixExpression },
-                { TokenType.LeftParenthesis, ParseGroupedExpression }
+                { TokenType.LeftParenthesis, ParseGroupedExpression },
+                { TokenType.If, ParseIfExpression }
             };
 
             infixParseMethods = new Dictionary<TokenType, InfixParseMethod>()
@@ -293,6 +293,53 @@ namespace Smelter
                 return null;
 
             return expression;
+        }
+
+        private IExpression ParseIfExpression()
+        {
+            var expression = new IfExpression(token);
+            if (!NextToken(TokenType.LeftParenthesis))
+                return null;
+
+            NextToken();
+            expression.Condition = ParseExpression(Precedence.Lowest);
+
+            if (!NextToken(TokenType.RightParenthesis))
+                return null;
+
+            if (!NextToken(TokenType.LeftBrace))
+                return null;
+
+            expression.Consequence = ParseBlockStatement();
+
+            if (NextTokenIs(TokenType.Else))
+            {
+                NextToken();
+                if (!NextToken(TokenType.LeftBrace))
+                    return null;
+
+                expression.Alternative = ParseBlockStatement();
+            }
+
+            return expression;
+        }
+
+
+        private BlockStatement ParseBlockStatement()
+        {
+            var blockStatement = new BlockStatement(token);
+            NextToken();
+
+            while (!CurrentTokenIs(TokenType.RightBrace))
+            {
+                var statement = ParseStatement();
+                if (statement != null)
+                    blockStatement.Statements.Add(statement);
+
+                NextToken();
+            }
+
+            return blockStatement;
         }
     }
 }
