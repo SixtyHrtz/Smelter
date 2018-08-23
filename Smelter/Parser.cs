@@ -38,7 +38,8 @@ namespace Smelter
                 { TokenType.Bang, ParsePrefixExpression },
                 { TokenType.Minus, ParsePrefixExpression },
                 { TokenType.LeftParenthesis, ParseGroupedExpression },
-                { TokenType.If, ParseIfExpression }
+                { TokenType.If, ParseIfExpression },
+                { TokenType.Method, ParseMetLiteral }
             };
 
             infixParseMethods = new Dictionary<TokenType, InfixParseMethod>()
@@ -340,6 +341,48 @@ namespace Smelter
             }
 
             return blockStatement;
+        }
+
+        private IExpression ParseMetLiteral()
+        {
+            var literal = new MetLiteral(token);
+
+            if (!NextToken(TokenType.LeftParenthesis))
+                return null;
+
+            literal.Parameters = ParseMethodParameters();
+
+            if (!NextToken(TokenType.LeftBrace))
+                return null;
+
+            literal.Body = ParseBlockStatement();
+            return literal;
+        }
+
+        private List<Identifier> ParseMethodParameters()
+        {
+            var identifiers = new List<Identifier>();
+
+            if (NextTokenIs(TokenType.RightParenthesis))
+            {
+                NextToken();
+                return identifiers;
+            }
+
+            NextToken();
+            identifiers.Add(new Identifier(token));
+
+            while (NextTokenIs(TokenType.Comma))
+            {
+                NextToken();
+                NextToken();
+                identifiers.Add(new Identifier(token));
+            }
+
+            if (!NextToken(TokenType.RightParenthesis))
+                return null;
+
+            return identifiers;
         }
     }
 }
