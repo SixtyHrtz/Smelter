@@ -32,9 +32,9 @@ namespace Smelter.AST.Expressions
 
         public override string ToString()
         {
-            var result = $"if {Condition} {Consequence}";
+            var result = $"if {Condition}\n{Consequence}";
             if (Alternative != null)
-                result += $"else {Alternative}";
+                result += $"else\n{Alternative}";
 
             return result;
         }
