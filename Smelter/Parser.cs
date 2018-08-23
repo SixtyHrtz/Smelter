@@ -33,6 +33,8 @@ namespace Smelter
             {
                 { TokenType.Identifier, ParseIdentifier },
                 { TokenType.Integer, ParseIntLiteral },
+                { TokenType.True, ParseBoolLiteral },
+                { TokenType.False, ParseBoolLiteral },
                 { TokenType.Bang, ParsePrefixExpression },
                 { TokenType.Minus, ParsePrefixExpression }
             };
@@ -236,6 +238,21 @@ namespace Smelter
             if (!int.TryParse(token.Literal, out int value))
             {
                 string msg = $"Не удалось привести {token.Literal} к целому числу.";
+                AddError(msg);
+                return null;
+            }
+
+            literal.Value = value;
+            return literal;
+        }
+
+        private IExpression ParseBoolLiteral()
+        {
+            var literal = new BoolLiteral(token);
+
+            if (!bool.TryParse(token.Literal, out bool value))
+            {
+                string msg = $"Не удалось привести {token.Literal} к логическому типу.";
                 AddError(msg);
                 return null;
             }
