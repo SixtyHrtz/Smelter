@@ -2,6 +2,7 @@
 using Smelter.AST.Statements;
 using Smelter.Enums;
 using Smelter.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Smelter
@@ -36,7 +37,8 @@ namespace Smelter
                 { TokenType.True, ParseBoolLiteral },
                 { TokenType.False, ParseBoolLiteral },
                 { TokenType.Bang, ParsePrefixExpression },
-                { TokenType.Minus, ParsePrefixExpression }
+                { TokenType.Minus, ParsePrefixExpression },
+                { TokenType.LeftParenthesis, ParseGroupedExpression }
             };
 
             infixParseMethods = new Dictionary<TokenType, InfixParseMethod>()
@@ -278,6 +280,17 @@ namespace Smelter
             var precedence = CurrentPrecedence();
             NextToken();
             expression.Right = ParseExpression(precedence);
+
+            return expression;
+        }
+
+        private IExpression ParseGroupedExpression()
+        {
+            NextToken();
+            var expression = ParseExpression(Precedence.Lowest);
+
+            if (!NextToken(TokenType.RightParenthesis))
+                return null;
 
             return expression;
         }
