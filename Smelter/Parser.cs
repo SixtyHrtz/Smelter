@@ -2,7 +2,6 @@
 using Smelter.AST.Statements;
 using Smelter.Enums;
 using Smelter.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace Smelter
@@ -20,6 +19,8 @@ namespace Smelter
         private readonly Dictionary<TokenType, PrefixParseMethod> prefixParseMethods;
         private readonly Dictionary<TokenType, InfixParseMethod> infixParseMethods;
 
+        private readonly Dictionary<TokenType, Precedence> precedences;
+
         public List<string> Errors { get; }
 
         public Parser(Lexer lexer)
@@ -34,6 +35,31 @@ namespace Smelter
                 { TokenType.Integer, ParseIntLiteral },
                 { TokenType.Bang, ParsePrefixExpression },
                 { TokenType.Minus, ParsePrefixExpression }
+            };
+
+            infixParseMethods = new Dictionary<TokenType, InfixParseMethod>()
+            {
+                { TokenType.Plus, ParseInfixExpression },
+                { TokenType.Minus, ParseInfixExpression },
+                { TokenType.Asterisk, ParseInfixExpression },
+                { TokenType.Slash, ParseInfixExpression },
+                { TokenType.Equals, ParseInfixExpression },
+                { TokenType.NotEquals, ParseInfixExpression },
+                { TokenType.GreaterThan, ParseInfixExpression },
+                { TokenType.LowerThan, ParseInfixExpression }
+            };
+
+            precedences = new Dictionary<TokenType, Precedence>()
+            {
+                { TokenType.Equals, Precedence.Equals },
+                { TokenType.NotEquals, Precedence.Equals },
+                { TokenType.GreaterThan, Precedence.LessOrGreater },
+                { TokenType.LowerThan, Precedence.LessOrGreater },
+                { TokenType.Plus, Precedence.Sum },
+                { TokenType.Minus, Precedence.Sum },
+                { TokenType.Slash, Precedence.Product },
+                { TokenType.Asterisk, Precedence.Product },
+                //{ TokenType.LeftParenthesis, Precedence.Call }
             };
 
             NextToken();
@@ -61,6 +87,22 @@ namespace Smelter
                 AddError(type);
                 return false;
             }
+        }
+
+        private Precedence NextPrecedenceIs()
+        {
+            if (precedences.ContainsKey(nextToken.Type))
+                return precedences[nextToken.Type];
+            else
+                return Precedence.Lowest;
+        }
+
+        private Precedence CurrentPrecedence()
+        {
+            if (precedences.ContainsKey(token.Type))
+                return precedences[token.Type];
+            else
+                return Precedence.Lowest;
         }
 
         private void AddError(string message) => Errors.Add(message);
@@ -149,31 +191,38 @@ namespace Smelter
             return statement;
         }
 
-        private IStatement ParseExpressionStatement() =>
-            new ExpressionStatement(token, ParseExpression(Precedence.Lowest));
-
-        private IExpression ParseExpression(Precedence lowest)
+        private IStatement ParseExpressionStatement()
         {
-            var method = prefixParseMethods[token.Type];
+            var statement = new ExpressionStatement(token, ParseExpression(Precedence.Lowest));
 
-            if (method == null)
+            if (NextTokenIs(TokenType.Semicolon))
+                NextToken();
+
+            return statement;
+        }
+
+
+        private IExpression ParseExpression(Precedence precedence)
+        {
+            var prefixMethod = prefixParseMethods[token.Type];
+
+            if (prefixMethod == null)
             {
                 AddPrefixMethodError(token.Type);
                 return null;
             }
 
-            var leftExpression = method();
+            var leftExpression = prefixMethod();
 
-            //while (!NextTokenIs(Token.SEMICOLON) &&
-            //       precedence < NextPrecedenceIs())
-            //{
-            //    InfixParseMethod infix = infixParseMethods[nextToken.Type];
-            //    if (infix == null)
-            //        return leftExpression;
+            while (!NextTokenIs(TokenType.Semicolon) && precedence < NextPrecedenceIs())
+            {
+                var infixMethod = infixParseMethods[nextToken.Type];
+                if (infixMethod == null)
+                    return leftExpression;
 
-            //    NextToken();
-            //    leftExpression = infix(leftExpression);
-            //}
+                NextToken();
+                leftExpression = infixMethod(leftExpression);
+            }
 
             return leftExpression;
         }
@@ -201,6 +250,17 @@ namespace Smelter
 
             NextToken();
             expression.Right = ParseExpression(Precedence.Prefix);
+
+            return expression;
+        }
+
+        private IExpression ParseInfixExpression(IExpression left)
+        {
+            var expression = new InfixExpression(token, left);
+
+            var precedence = CurrentPrecedence();
+            NextToken();
+            expression.Right = ParseExpression(precedence);
 
             return expression;
         }
