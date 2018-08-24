@@ -51,7 +51,8 @@ namespace Smelter
                 { TokenType.Equals, ParseInfixExpression },
                 { TokenType.NotEquals, ParseInfixExpression },
                 { TokenType.GreaterThan, ParseInfixExpression },
-                { TokenType.LowerThan, ParseInfixExpression }
+                { TokenType.LowerThan, ParseInfixExpression },
+                { TokenType.LeftParenthesis, ParseCallExpression }
             };
 
             precedences = new Dictionary<TokenType, Precedence>()
@@ -64,7 +65,7 @@ namespace Smelter
                 { TokenType.Minus, Precedence.Sum },
                 { TokenType.Slash, Precedence.Product },
                 { TokenType.Asterisk, Precedence.Product },
-                //{ TokenType.LeftParenthesis, Precedence.Call }
+                { TokenType.LeftParenthesis, Precedence.Call }
             };
 
             NextToken();
@@ -383,6 +384,35 @@ namespace Smelter
                 return null;
 
             return identifiers;
+        }
+
+        private CallExpression ParseCallExpression(IExpression expression) =>
+            new CallExpression(token, expression, ParseCallArguments());
+
+        private List<IExpression> ParseCallArguments()
+        {
+            var arguments = new List<IExpression>();
+
+            if (NextTokenIs(TokenType.LeftParenthesis))
+            {
+                NextToken();
+                return arguments;
+            }
+
+            NextToken();
+            arguments.Add(ParseExpression(Precedence.Lowest));
+
+            while (NextTokenIs(TokenType.Comma))
+            {
+                NextToken();
+                NextToken();
+                arguments.Add(ParseExpression(Precedence.Lowest));
+            }
+
+            if (!NextToken(TokenType.RightParenthesis))
+                return null;
+
+            return arguments;
         }
     }
 }
