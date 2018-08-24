@@ -166,15 +166,11 @@ namespace Smelter
             if (!NextToken(TokenType.Assign))
                 return null;
 
-            // TODO
-            while (!CurrentTokenIs(TokenType.Semicolon))
-                NextToken();
+            NextToken();
+            statement.Value = ParseExpression(Precedence.Lowest);
 
-            //NextToken();
-            //statement.Value = ParseExpression(Precedence.Lowest);
-
-            //if (!NextToken(TokenType.Semicolon))
-            //    return null;
+            if (!NextToken(TokenType.Semicolon))
+                return null;
 
             return statement;
         }
@@ -184,15 +180,10 @@ namespace Smelter
             var statement = new RetStatement(token);
 
             NextToken();
+            statement.Value = ParseExpression(Precedence.Lowest);
 
-            // TODO
-            while (!CurrentTokenIs(TokenType.Semicolon))
-                NextToken();
-
-            //statement.Value = ParseExpression(Precedence.Lowest);
-
-            //if (!NextToken(TokenType.Semicolon))
-            //    return null;
+            if (!NextToken(TokenType.Semicolon))
+                return null;
 
             return statement;
         }
