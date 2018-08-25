@@ -9,6 +9,17 @@
 
         private Bool(bool value) => Value = value;
 
+        public static implicit operator Bool(bool value) =>
+            (value) ? True : False;
+
+        public static Bool operator ==(Bool left, Bool right) =>
+            left.Value == right.Value;
+
+        public static Bool operator !=(Bool left, Bool right) =>
+            left.Value != right.Value;
+
+        public static Bool operator !(Bool value) => !value.Value;
+
         public override string ToString() => Value.ToString();
     }
 }

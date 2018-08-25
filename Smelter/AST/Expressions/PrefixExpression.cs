@@ -17,26 +17,28 @@ namespace Smelter.AST.Expressions
 
         public IObject Evaluate(/*Memory memory*/)
         {
-            //Object right = Expression.Evaluate(memory);
+            var right = Right.Evaluate(/*memory*/);
 
             //if (right is Error)
             //    return right;
 
-            //switch (Operator)
-            //{
-            //    case "!":
-            //        if (right is Boolean)
-            //            return !(right as Boolean);
-            //        break;
-            //    case "-":
-            //        if (right is Integer)
-            //            return -(right as Integer);
-            //        break;
-            //}
+            switch (Operator)
+            {
+                case "!":
+                    if (right is Bool)
+                        return !(right as Bool);
+                    break;
+                case "-":
+                    if (right is Int)
+                        return -(right as Int);
+                    break;
+                default:
+                    return Null.Ref;
+            }
 
-            //return new Error(string.Format("Неизвестный оператор: {0}{1}", Operator, right.Name));
+            /*return new Error(string.Format("Неизвестный оператор: {0}{1}", Operator, right.Name));*/
 
-            return null;
+            return Null.Ref;
         }
 
         public override string ToString() =>
