@@ -1,4 +1,5 @@
 ﻿using Smelter.Interfaces;
+using Smelter.Objects;
 using System.Collections.Generic;
 
 namespace Smelter.AST.Statements
@@ -14,20 +15,20 @@ namespace Smelter.AST.Statements
             Statements = new List<IStatement>();
         }
 
-        //public Object Evaluate(Memory memory)
-        //{
-        //    foreach (Statement stmt in Statements)
-        //    {
-        //        Object value = stmt.Evaluate(memory);
+        public IObject Evaluate(/*Memory memory*/)
+        {
+            //foreach (Statement stmt in Statements)
+            //{
+            //    Object value = stmt.Evaluate(memory);
 
-        //        if (value is Error)
-        //            return value;
-        //        //if (value is Return || value is Error)
-        //        //    return value;
-        //    }
+            //    if (value is Error)
+            //        return value;
+            //    //if (value is Return || value is Error)
+            //    //    return value;
+            //}
 
-        //    return null;
-        //}
+            return null;
+        }
 
         public override string ToString()
         {

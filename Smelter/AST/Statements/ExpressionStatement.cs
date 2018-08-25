@@ -1,4 +1,5 @@
 ﻿using Smelter.Interfaces;
+using Smelter.Objects;
 
 namespace Smelter.AST.Statements
 {
@@ -12,10 +13,7 @@ namespace Smelter.AST.Statements
         public ExpressionStatement(Token token, IExpression expression) :
             this(token) => Expression = expression;
 
-        //public Object Evaluate(Memory memory)
-        //{
-        //    return Expression.Evaluate(memory);
-        //}
+        public IObject Evaluate(/*Memory memory*/) => Expression.Evaluate(/*memory*/);
 
         public override string ToString() => StringHelper.DefaultOrNull(Expression);
     }

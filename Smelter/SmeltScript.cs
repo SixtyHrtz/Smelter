@@ -26,10 +26,10 @@ namespace Smelter
             return parser.Errors.Count == 0;
         }
 
-        public void Run()
+        public string Run()
         {
-            //program.Evaluate(new Memory());
-            //return program.Result;
+            //program.Evaluate(/*new Memory()*/);
+            return string.Join("\n", program.Evaluate()) + "\n";
         }
 
         public override string ToString() => program.ToString();

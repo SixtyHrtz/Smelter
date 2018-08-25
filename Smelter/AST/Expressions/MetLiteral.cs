@@ -1,5 +1,6 @@
 ﻿using Smelter.AST.Statements;
 using Smelter.Interfaces;
+using Smelter.Objects;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,10 +14,10 @@ namespace Smelter.AST.Expressions
 
         public MetLiteral(Token token) => Token = token;
 
-        //public Object Evaluate(Memory memory)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public IObject Evaluate(/*Memory memory*/)
+        {
+            return null;
+        }
 
         public override string ToString()
         {

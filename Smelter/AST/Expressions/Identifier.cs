@@ -1,4 +1,5 @@
 ﻿using Smelter.Interfaces;
+using Smelter.Objects;
 
 namespace Smelter.AST.Expressions
 {
@@ -11,6 +12,11 @@ namespace Smelter.AST.Expressions
         {
             Token = token;
             Value = token.Literal;
+        }
+
+        public IObject Evaluate()
+        {
+            return null;
         }
 
         public override string ToString() => Value;

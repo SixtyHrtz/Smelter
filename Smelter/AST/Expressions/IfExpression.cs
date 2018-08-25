@@ -1,5 +1,6 @@
 ﻿using Smelter.AST.Statements;
 using Smelter.Interfaces;
+using Smelter.Objects;
 
 namespace Smelter.AST.Expressions
 {
@@ -12,23 +13,23 @@ namespace Smelter.AST.Expressions
 
         public IfExpression(Token token) => Token = token;
 
-        //public Object Evaluate(Memory memory)
-        //{
-        //    Object value = Condition.Evaluate(memory);
-        //    if (value is Error)
-        //        return value;
+        public IObject Evaluate(/*Memory memory*/)
+        {
+            //Object value = Condition.Evaluate(memory);
+            //if (value is Error)
+            //    return value;
 
-        //    if (value is Boolean)
-        //    {
-        //        Boolean booleanValue = value as Boolean;
-        //        if (booleanValue.Value)
-        //            return Consequence.Evaluate(memory);
-        //        else if (Alternative != null)
-        //            return Alternative.Evaluate(memory);
-        //    }
+            //if (value is Boolean)
+            //{
+            //    Boolean booleanValue = value as Boolean;
+            //    if (booleanValue.Value)
+            //        return Consequence.Evaluate(memory);
+            //    else if (Alternative != null)
+            //        return Alternative.Evaluate(memory);
+            //}
 
-        //    return null;
-        //}
+            return null;
+        }
 
         public override string ToString()
         {

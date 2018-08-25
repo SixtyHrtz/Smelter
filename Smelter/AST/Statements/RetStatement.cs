@@ -1,4 +1,5 @@
 ﻿using Smelter.Interfaces;
+using Smelter.Objects;
 
 namespace Smelter.AST.Statements
 {
@@ -9,14 +10,16 @@ namespace Smelter.AST.Statements
 
         public RetStatement(Token token) => Token = token;
 
-        //public Object Evaluate(Memory memory)
-        //{
-        //    Object value = Value.Evaluate(memory);
-        //    if (value is Error)
-        //        return value;
+        public IObject Evaluate(/*Memory memory*/)
+        {
+            return null;
 
-        //    return new Return(value);
-        //}
+            //Object value = Value.Evaluate(memory);
+            //if (value is Error)
+            //    return value;
+
+            //return new Return(value);
+        }
 
         public override string ToString() =>
             $"{Token.Literal} {StringHelper.DefaultOrNull(Value)};";

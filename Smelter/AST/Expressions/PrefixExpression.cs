@@ -1,4 +1,5 @@
 ﻿using Smelter.Interfaces;
+using Smelter.Objects;
 
 namespace Smelter.AST.Expressions
 {
@@ -14,27 +15,29 @@ namespace Smelter.AST.Expressions
             Operator = token.Literal;
         }
 
-        //public Object Evaluate(Memory memory)
-        //{
-        //    Object right = Expression.Evaluate(memory);
+        public IObject Evaluate(/*Memory memory*/)
+        {
+            //Object right = Expression.Evaluate(memory);
 
-        //    if (right is Error)
-        //        return right;
+            //if (right is Error)
+            //    return right;
 
-        //    switch (Operator)
-        //    {
-        //        case "!":
-        //            if (right is Boolean)
-        //                return !(right as Boolean);
-        //            break;
-        //        case "-":
-        //            if (right is Integer)
-        //                return -(right as Integer);
-        //            break;
-        //    }
+            //switch (Operator)
+            //{
+            //    case "!":
+            //        if (right is Boolean)
+            //            return !(right as Boolean);
+            //        break;
+            //    case "-":
+            //        if (right is Integer)
+            //            return -(right as Integer);
+            //        break;
+            //}
 
-        //    return new Error(string.Format("Неизвестный оператор: {0}{1}", Operator, right.Name));
-        //}
+            //return new Error(string.Format("Неизвестный оператор: {0}{1}", Operator, right.Name));
+
+            return null;
+        }
 
         public override string ToString() =>
             $"({Operator}{Right.ToString()})";

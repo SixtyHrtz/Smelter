@@ -15,7 +15,7 @@ namespace Smelter
                 var script = new SmeltScript();
 
                 if (script.Compile(Console.ReadLine()))
-                    Console.Write(script.ToString());
+                    Console.Write(script.Run());
                 else
                 {
                     Console.WriteLine("Во время компиляции возникли ошибки!");

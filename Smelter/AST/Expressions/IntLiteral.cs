@@ -1,4 +1,5 @@
 ﻿using Smelter.Interfaces;
+using Smelter.Objects;
 
 namespace Smelter.AST.Expressions
 {
@@ -9,10 +10,7 @@ namespace Smelter.AST.Expressions
 
         public IntLiteral(Token token) => Token = token;
 
-        //public Object Evaluate(Memory memory)
-        //{
-        //    return new Integer(Value);
-        //}
+        public IObject Evaluate(/*Memory memory*/) => new Int(Value);
 
         public override string ToString() => Token.Literal;
     }
