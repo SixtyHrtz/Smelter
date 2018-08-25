@@ -16,8 +16,8 @@ namespace Smelter
         private Token token;
         private Token nextToken;
 
-        private readonly Dictionary<TokenType, PrefixParseMethod> prefixParseMethods;
-        private readonly Dictionary<TokenType, InfixParseMethod> infixParseMethods;
+        private readonly Dictionary<TokenType, PrefixParseMethod> prefixMethods;
+        private readonly Dictionary<TokenType, InfixParseMethod> infixMethods;
 
         private readonly Dictionary<TokenType, Precedence> precedences;
 
@@ -29,7 +29,7 @@ namespace Smelter
 
             Errors = new List<string>();
 
-            prefixParseMethods = new Dictionary<TokenType, PrefixParseMethod>()
+            prefixMethods = new Dictionary<TokenType, PrefixParseMethod>()
             {
                 { TokenType.Identifier, ParseIdentifier },
                 { TokenType.Integer, ParseIntLiteral },
@@ -42,7 +42,7 @@ namespace Smelter
                 { TokenType.Method, ParseMetLiteral }
             };
 
-            infixParseMethods = new Dictionary<TokenType, InfixParseMethod>()
+            infixMethods = new Dictionary<TokenType, InfixParseMethod>()
             {
                 { TokenType.Plus, ParseInfixExpression },
                 { TokenType.Minus, ParseInfixExpression },
@@ -121,7 +121,8 @@ namespace Smelter
 
         private void AddPrefixMethodError(TokenType type)
         {
-            var message = $"Для токена {type} не найдены подходящие префиксные методы!";
+            var message = $"Для токена {type} не найдены " +
+                "подходящие префиксные методы!";
             Errors.Add(message);
         }
 
@@ -190,7 +191,8 @@ namespace Smelter
 
         private IStatement ParseExpressionStatement()
         {
-            var statement = new ExpressionStatement(token, ParseExpression(Precedence.Lowest));
+            var statement = new ExpressionStatement(token,
+                ParseExpression(Precedence.Lowest));
 
             if (NextTokenIs(TokenType.Semicolon))
                 NextToken();
@@ -201,7 +203,7 @@ namespace Smelter
 
         private IExpression ParseExpression(Precedence precedence)
         {
-            var prefixMethod = prefixParseMethods[token.Type];
+            var prefixMethod = prefixMethods.GetValueOrDefault(token.Type);
 
             if (prefixMethod == null)
             {
@@ -211,9 +213,10 @@ namespace Smelter
 
             var leftExpression = prefixMethod();
 
-            while (!NextTokenIs(TokenType.Semicolon) && precedence < NextPrecedenceIs())
+            while (!NextTokenIs(TokenType.Semicolon) &&
+                precedence < NextPrecedenceIs())
             {
-                var infixMethod = infixParseMethods[nextToken.Type];
+                var infixMethod = infixMethods.GetValueOrDefault(nextToken.Type);
                 if (infixMethod == null)
                     return leftExpression;
 
@@ -232,7 +235,8 @@ namespace Smelter
 
             if (!int.TryParse(token.Literal, out int value))
             {
-                string msg = $"Не удалось привести {token.Literal} к целому числу.";
+                string msg = $"Не удалось привести {token.Literal} " +
+                    "к целому числу.";
                 AddError(msg);
                 return null;
             }
@@ -247,7 +251,8 @@ namespace Smelter
 
             if (!bool.TryParse(token.Literal, out bool value))
             {
-                string msg = $"Не удалось привести {token.Literal} к логическому типу.";
+                string msg = $"Не удалось привести {token.Literal} " +
+                    "к логическому типу.";
                 AddError(msg);
                 return null;
             }

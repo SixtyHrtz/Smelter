@@ -6,21 +6,23 @@ namespace Smelter
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Добро пожаловать в скриптовой язык Smelt!");
+            Console.WriteLine("Можете вводить свой код:");
+
             while (true)
             {
                 Console.Write(">> ");
-                var lexer = new Lexer(Console.ReadLine());
-                var parser = new Parser(lexer);
-                var program = parser.Parse();
+                var script = new SmeltScript();
 
-                if (parser.Errors.Count > 0)
+                if (script.Compile(Console.ReadLine()))
+                    Console.Write(script.ToString());
+                else
                 {
-                    foreach (var error in parser.Errors)
-                        Console.WriteLine($"Ошибка: {error}");
+                    Console.WriteLine("Во время компиляции возникли ошибки!");
+                    foreach (var error in script.ParserErrors)
+                        Console.WriteLine($"\tОшибка: {error}");
                     continue;
                 }
-
-                Console.Write(program.ToString());
             }
         }
     }
