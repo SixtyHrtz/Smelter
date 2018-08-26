@@ -17,17 +17,18 @@ namespace Smelter.AST.Statements
 
         public IObject Evaluate(/*Memory memory*/)
         {
-            //foreach (Statement stmt in Statements)
-            //{
-            //    Object value = stmt.Evaluate(memory);
+            foreach (var statement in Statements)
+            {
+                var value = statement.Evaluate(/*memory*/);
 
-            //    if (value is Error)
-            //        return value;
-            //    //if (value is Return || value is Error)
-            //    //    return value;
-            //}
+                //if (value is Error)
+                //    return value;
+                //if (value is Return || value is Error)
+                //if(value is Return)
+                return value;
+            }
 
-            return null;
+            return Null.Ref;
         }
 
         public override string ToString()

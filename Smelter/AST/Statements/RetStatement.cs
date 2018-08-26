@@ -12,13 +12,11 @@ namespace Smelter.AST.Statements
 
         public IObject Evaluate(/*Memory memory*/)
         {
-            return null;
-
-            //Object value = Value.Evaluate(memory);
+            var value = Value.Evaluate(/*memory*/);
             //if (value is Error)
             //    return value;
 
-            //return new Return(value);
+            return new RetStatement(value);
         }
 
         public override string ToString() =>

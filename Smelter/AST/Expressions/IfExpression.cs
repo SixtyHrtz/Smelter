@@ -15,20 +15,21 @@ namespace Smelter.AST.Expressions
 
         public IObject Evaluate(/*Memory memory*/)
         {
-            //Object value = Condition.Evaluate(memory);
+            var value = Condition.Evaluate(/*memory*/);
             //if (value is Error)
             //    return value;
 
-            //if (value is Boolean)
-            //{
-            //    Boolean booleanValue = value as Boolean;
-            //    if (booleanValue.Value)
-            //        return Consequence.Evaluate(memory);
-            //    else if (Alternative != null)
-            //        return Alternative.Evaluate(memory);
-            //}
+            if (value is Bool)
+            {
+                var boolValue = value as Bool;
 
-            return null;
+                if (boolValue.Value)
+                    return Consequence.Evaluate(/*memory*/);
+                else if (Alternative != null)
+                    return Alternative.Evaluate(/*memory*/);
+            }
+
+            return Null.Ref;
         }
 
         public override string ToString()
