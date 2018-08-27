@@ -14,7 +14,7 @@ namespace Smelter.AST.Expressions
             Value = token.Literal;
         }
 
-        public IObject Evaluate() => null;
+        public IObj Evaluate() => Null.Ref;
 
         public override string ToString() => Value;
     }

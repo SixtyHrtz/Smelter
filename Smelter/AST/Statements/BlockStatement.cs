@@ -15,7 +15,7 @@ namespace Smelter.AST.Statements
             Statements = new List<IStatement>();
         }
 
-        public IObject Evaluate(/*Memory memory*/)
+        public IObj Evaluate(/*Memory memory*/)
         {
             foreach (var statement in Statements)
             {
@@ -23,9 +23,9 @@ namespace Smelter.AST.Statements
 
                 //if (value is Error)
                 //    return value;
-                //if (value is Return || value is Error)
-                //if(value is Return)
-                return value;
+
+                if (value is Ret)
+                    return value;
             }
 
             return Null.Ref;

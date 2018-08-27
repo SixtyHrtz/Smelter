@@ -4,29 +4,27 @@ using System.Collections.Generic;
 
 namespace Smelter
 {
-    public class SmeltProgram
+    public class SmeltProgram : INode
     {
         public List<IStatement> Statements { get; set; }
 
         public SmeltProgram() => Statements = new List<IStatement>();
 
-        public List<IObject> Evaluate(/*Memory memory*/)
+        public IObj Evaluate(/*Memory memory*/)
         {
-            var results = new List<IObject>();
+            var results = new List<IObj>();
 
             foreach (var statement in Statements)
             {
-                //var value = statement.Evaluate(/*memory*/);
+                var value = statement.Evaluate(/*memory*/);
 
-                results.Add(statement.Evaluate());
-
-                //if (value is Return)
-                //    result.Add(value.ToString());
+                if (value is Ret)
+                    return value;
                 //if (value is Error)
                 //    errors.Add(value.ToString());
             }
 
-            return results;
+            return Null.Ref;
         }
 
         public override string ToString()

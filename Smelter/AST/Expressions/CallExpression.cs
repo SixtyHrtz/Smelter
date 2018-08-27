@@ -18,10 +18,7 @@ namespace Smelter.AST.Expressions
             Arguments = arguments;
         }
 
-        public IObject Evaluate(/*Memory memory*/)
-        {
-            return null;
-        }
+        public IObj Evaluate(/*Memory memory*/) => Null.Ref;
 
         public override string ToString()
         {

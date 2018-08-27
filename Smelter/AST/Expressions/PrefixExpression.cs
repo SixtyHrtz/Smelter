@@ -15,7 +15,7 @@ namespace Smelter.AST.Expressions
             Operator = token.Literal;
         }
 
-        public IObject Evaluate(/*Memory memory*/)
+        public IObj Evaluate(/*Memory memory*/)
         {
             var right = Right.Evaluate(/*memory*/);
 

@@ -1,6 +1,6 @@
 ﻿namespace Smelter.Objects
 {
-    public class Int : IObject
+    public class Int : IObj
     {
         public int Value { get; }
 

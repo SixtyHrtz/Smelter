@@ -1,4 +1,4 @@
 ﻿namespace Smelter.Objects
 {
-    public interface IObject { }
+    public interface IObj { }
 }

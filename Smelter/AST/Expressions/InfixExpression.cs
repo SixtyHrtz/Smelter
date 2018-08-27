@@ -16,7 +16,7 @@ namespace Smelter.AST.Expressions
             Left = left;
         }
 
-        public IObject Evaluate(/*Memory memory*/)
+        public IObj Evaluate(/*Memory memory*/)
         {
             var left = Left.Evaluate(/*memory*/);
             //if (left is Error)

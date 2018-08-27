@@ -1,10 +1,8 @@
-﻿using Smelter.Interfaces;
-
-namespace Smelter
+﻿namespace Smelter
 {
     public static class StringHelper
     {
-        public static string DefaultOrNull(INode node) =>
-            (node == null) ? "null" : node.ToString();
+        public static string DefaultOrNull(object obj) =>
+            (obj == null) ? "null" : obj.ToString();
     }
 }

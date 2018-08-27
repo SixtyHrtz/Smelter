@@ -13,7 +13,7 @@ namespace Smelter.AST.Statements
         public ExpressionStatement(Token token, IExpression expression) :
             this(token) => Expression = expression;
 
-        public IObject Evaluate(/*Memory memory*/) => Expression.Evaluate(/*memory*/);
+        public IObj Evaluate(/*Memory memory*/) => Expression.Evaluate(/*memory*/);
 
         public override string ToString() => StringHelper.DefaultOrNull(Expression);
     }

@@ -1,6 +1,6 @@
 ﻿namespace Smelter.Objects
 {
-    public class Bool : IObject
+    public class Bool : IObj
     {
         public static Bool True { get; } = new Bool(true);
         public static Bool False { get; } = new Bool(false);

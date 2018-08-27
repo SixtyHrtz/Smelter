@@ -1,6 +1,6 @@
 ﻿namespace Smelter.Objects
 {
-    public class Null : IObject
+    public class Null : IObj
     {
         public static Null Ref { get; } = new Null();
 

@@ -13,7 +13,7 @@ namespace Smelter.AST.Expressions
 
         public IfExpression(Token token) => Token = token;
 
-        public IObject Evaluate(/*Memory memory*/)
+        public IObj Evaluate(/*Memory memory*/)
         {
             var condition = Condition.Evaluate(/*memory*/);
             //if (value is Error)

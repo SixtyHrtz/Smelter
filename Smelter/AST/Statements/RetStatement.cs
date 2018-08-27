@@ -10,15 +10,13 @@ namespace Smelter.AST.Statements
 
         public RetStatement(Token token) => Token = token;
 
-        public IObject Evaluate(/*Memory memory*/)
+        public IObj Evaluate(/*Memory memory*/)
         {
             var value = Value.Evaluate(/*memory*/);
             //if (value is Error)
             //    return value;
 
-            //return new RetStatement(value);
-
-            return value;
+            return new Ret(value);
         }
 
         public override string ToString() =>

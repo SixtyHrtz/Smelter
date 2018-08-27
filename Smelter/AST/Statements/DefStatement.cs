@@ -12,10 +12,7 @@ namespace Smelter.AST.Statements
 
         public DefStatement(Token token) => Token = token;
 
-        public IObject Evaluate()
-        {
-            return null;
-        }
+        public IObj Evaluate() => Null.Ref;
 
         public override string ToString() =>
             $"{Token.Literal} {Name} = {StringHelper.DefaultOrNull(Value)};";
