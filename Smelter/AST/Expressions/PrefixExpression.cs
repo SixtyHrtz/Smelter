@@ -18,9 +18,8 @@ namespace Smelter.AST.Expressions
         public IObj Evaluate(/*Memory memory*/)
         {
             var right = Right.Evaluate(/*memory*/);
-
-            //if (right is Error)
-            //    return right;
+            if (right is Err)
+                return right;
 
             switch (Operator)
             {
@@ -33,12 +32,11 @@ namespace Smelter.AST.Expressions
                         return -(right as Int);
                     break;
                 default:
-                    return Null.Ref;
+                    return new Err($"Оператор не поддерживается: {Operator}{right.GetType()}");
             }
 
-            /*return new Error(string.Format("Неизвестный оператор: {0}{1}", Operator, right.Name));*/
-
-            return Null.Ref;
+            return new Err("Тип данных не поддерживает префиксное " +
+                $"выражение: {Operator}{right.GetType()}");
         }
 
         public override string ToString() =>

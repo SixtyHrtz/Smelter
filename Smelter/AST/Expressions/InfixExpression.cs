@@ -19,12 +19,12 @@ namespace Smelter.AST.Expressions
         public IObj Evaluate(/*Memory memory*/)
         {
             var left = Left.Evaluate(/*memory*/);
-            //if (left is Error)
-            //    return left;
+            if (left is Err)
+                return left;
 
             var right = Right.Evaluate(/*memory*/);
-            //if (right is Error)
-            //    return right;
+            if (right is Err)
+                return right;
 
             if (left is Int && right is Int)
             {
@@ -41,6 +41,9 @@ namespace Smelter.AST.Expressions
                     case TokenType.GreaterThan: return leftInteger > rightInteger;
                     case TokenType.Equals: return leftInteger == rightInteger;
                     case TokenType.NotEquals: return leftInteger != rightInteger;
+                    default:
+                        return new Err("Оператор не поддерживается: " +
+                            $"{left.GetType()} {Token.Type} {right.GetType()}");
                 }
             }
             else if (left is Bool && right is Bool)
@@ -52,11 +55,13 @@ namespace Smelter.AST.Expressions
                 {
                     case TokenType.Equals: return leftBoolean == rightBoolean;
                     case TokenType.NotEquals: return leftBoolean != rightBoolean;
+                    default:
+                        return new Err("Оператор не поддерживается: " +
+                            $"{left.GetType()} {Token.Type} {right.GetType()}");
                 }
             }
-
-            //return new Error(string.Format("Несоответствие типов: {0} {1} {2}", left.Name, Operator, right.Name));
-            return Null.Ref;
+            else
+                return new Err($"Несоответствие типов: {left.GetType()} {Token.Type} {right.GetType()}");
         }
 
         public override string ToString() =>

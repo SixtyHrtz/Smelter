@@ -20,11 +20,7 @@ namespace Smelter.AST.Statements
             foreach (var statement in Statements)
             {
                 var value = statement.Evaluate(/*memory*/);
-
-                //if (value is Error)
-                //    return value;
-
-                if (value is Ret)
+                if (value is Ret || value is Err)
                     return value;
             }
 

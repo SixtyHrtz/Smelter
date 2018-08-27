@@ -16,8 +16,8 @@ namespace Smelter.AST.Expressions
         public IObj Evaluate(/*Memory memory*/)
         {
             var condition = Condition.Evaluate(/*memory*/);
-            //if (value is Error)
-            //    return value;
+            if (condition is Err)
+                return condition;
 
             if (condition is Bool)
             {

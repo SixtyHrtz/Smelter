@@ -19,9 +19,9 @@ namespace Smelter
                 var value = statement.Evaluate(/*memory*/);
 
                 if (value is Ret)
+                    return (value as Ret).Value;
+                if (value is Err)
                     return value;
-                //if (value is Error)
-                //    errors.Add(value.ToString());
             }
 
             return Null.Ref;

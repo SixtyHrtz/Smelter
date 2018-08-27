@@ -13,8 +13,8 @@ namespace Smelter.AST.Statements
         public IObj Evaluate(/*Memory memory*/)
         {
             var value = Value.Evaluate(/*memory*/);
-            //if (value is Error)
-            //    return value;
+            if (value is Err)
+                return value;
 
             return new Ret(value);
         }
