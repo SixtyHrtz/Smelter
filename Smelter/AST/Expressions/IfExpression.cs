@@ -15,15 +15,15 @@ namespace Smelter.AST.Expressions
 
         public IObject Evaluate(/*Memory memory*/)
         {
-            var value = Condition.Evaluate(/*memory*/);
+            var condition = Condition.Evaluate(/*memory*/);
             //if (value is Error)
             //    return value;
 
-            if (value is Bool)
+            if (condition is Bool)
             {
-                var boolValue = value as Bool;
+                var value = condition as Bool;
 
-                if (boolValue.Value)
+                if (value.Value)
                     return Consequence.Evaluate(/*memory*/);
                 else if (Alternative != null)
                     return Alternative.Evaluate(/*memory*/);
