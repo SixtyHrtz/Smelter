@@ -16,7 +16,9 @@ namespace Smelter.AST.Statements
             //if (value is Error)
             //    return value;
 
-            return new RetStatement(value);
+            //return new RetStatement(value);
+
+            return value;
         }
 
         public override string ToString() =>

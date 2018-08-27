@@ -8,13 +8,11 @@ namespace Smelter.AST.Expressions
     {
         public Token Token { get; set; }
         public IExpression Left { get; set; }
-        public string Operator { get; set; }
         public IExpression Right { get; set; }
 
         public InfixExpression(Token token, IExpression left)
         {
             Token = token;
-            Operator = token.Literal;
             Left = left;
         }
 
@@ -33,25 +31,16 @@ namespace Smelter.AST.Expressions
                 var leftInteger = left as Int;
                 var rightInteger = right as Int;
 
-                switch (Operator)
+                switch (Token.Type)
                 {
-                    case "+":
-                        return leftInteger + rightInteger;
-                    case "-":
-                        return leftInteger - rightInteger;
-                    case "*":
-                        return leftInteger * rightInteger;
-                    case "/":
-                        return leftInteger / rightInteger;
-
-                    case "<":
-                        return leftInteger < rightInteger;
-                    case ">":
-                        return leftInteger > rightInteger;
-                    case "==":
-                        return leftInteger == rightInteger;
-                    case "!=":
-                        return leftInteger != rightInteger;
+                    case TokenType.Plus: return leftInteger + rightInteger;
+                    case TokenType.Minus: return leftInteger - rightInteger;
+                    case TokenType.Asterisk: return leftInteger * rightInteger;
+                    case TokenType.Slash: return leftInteger / rightInteger;
+                    case TokenType.LowerThan: return leftInteger < rightInteger;
+                    case TokenType.GreaterThan: return leftInteger > rightInteger;
+                    case TokenType.Equals: return leftInteger == rightInteger;
+                    case TokenType.NotEquals: return leftInteger != rightInteger;
                 }
             }
             else if (left is Bool && right is Bool)
@@ -59,12 +48,10 @@ namespace Smelter.AST.Expressions
                 var leftBoolean = left as Bool;
                 var rightBoolean = right as Bool;
 
-                switch (Operator)
+                switch (Token.Type)
                 {
-                    case "==":
-                        return leftBoolean == rightBoolean;
-                    case "!=":
-                        return leftBoolean != rightBoolean;
+                    case TokenType.Equals: return leftBoolean == rightBoolean;
+                    case TokenType.NotEquals: return leftBoolean != rightBoolean;
                 }
             }
 
@@ -73,6 +60,6 @@ namespace Smelter.AST.Expressions
         }
 
         public override string ToString() =>
-            $"({Left.ToString()} {Operator} {Right.ToString()})";
+            $"({Left.ToString()} {Token.Type} {Right.ToString()})";
     }
 }
