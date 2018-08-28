@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Smelter.AST;
+using System.Collections.Generic;
 
 namespace Smelter
 {
-    public class SmeltScript
+    public class Script
     {
         private string text;
         private Lexer lexer;

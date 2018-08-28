@@ -2,7 +2,7 @@
 using Smelter.Objects;
 using System.Collections.Generic;
 
-namespace Smelter
+namespace Smelter.AST
 {
     public class SmeltProgram : INode
     {

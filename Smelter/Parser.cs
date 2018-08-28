@@ -1,4 +1,5 @@
-﻿using Smelter.AST.Expressions;
+﻿using Smelter.AST;
+using Smelter.AST.Expressions;
 using Smelter.AST.Statements;
 using Smelter.Enums;
 using Smelter.Interfaces;

@@ -12,7 +12,7 @@ namespace Smelter
             while (true)
             {
                 Console.Write(">> ");
-                var script = new SmeltScript();
+                var script = new Script();
 
                 if (script.Compile(Console.ReadLine()))
                     Console.Write(script.Run());
