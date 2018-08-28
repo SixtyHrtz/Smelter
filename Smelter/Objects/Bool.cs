@@ -5,6 +5,7 @@
         public static Bool True { get; } = new Bool(true);
         public static Bool False { get; } = new Bool(false);
 
+        public string Type => "bool";
         public bool Value { get; }
 
         private Bool(bool value) => Value = value;

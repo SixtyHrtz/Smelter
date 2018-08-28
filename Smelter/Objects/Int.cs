@@ -2,6 +2,7 @@
 {
     public class Int : IObj
     {
+        public string Type => "int";
         public int Value { get; }
 
         public Int(int value) => Value = value;

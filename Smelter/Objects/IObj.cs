@@ -1,4 +1,7 @@
 ﻿namespace Smelter.Objects
 {
-    public interface IObj { }
+    public interface IObj
+    {
+        string Type { get; }
+    }
 }

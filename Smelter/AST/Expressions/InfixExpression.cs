@@ -42,8 +42,8 @@ namespace Smelter.AST.Expressions
                     case TokenType.Equals: return leftInteger == rightInteger;
                     case TokenType.NotEquals: return leftInteger != rightInteger;
                     default:
-                        return new Err("Оператор не поддерживается: " +
-                            $"{left.GetType()} {Token.Type} {right.GetType()}");
+                        return new Err("Данный инфиксный оператор не поддерживается: " +
+                            $"{left.Type} {Token.Literal} {right.Type}");
                 }
             }
             else if (left is Bool && right is Bool)
@@ -56,15 +56,16 @@ namespace Smelter.AST.Expressions
                     case TokenType.Equals: return leftBoolean == rightBoolean;
                     case TokenType.NotEquals: return leftBoolean != rightBoolean;
                     default:
-                        return new Err("Оператор не поддерживается: " +
-                            $"{left.GetType()} {Token.Type} {right.GetType()}");
+                        return new Err("Данный инфиксный оператор не поддерживается: " +
+                            $"{left.Type} {Token.Literal} {right.Type}");
                 }
             }
             else
-                return new Err($"Несоответствие типов: {left.GetType()} {Token.Type} {right.GetType()}");
+                return new Err("Инфиксные операции над этими типами данных невозможны: " +
+                    $"{left.Type} {Token.Literal} {right.Type}");
         }
 
         public override string ToString() =>
-            $"({Left.ToString()} {Token.Type} {Right.ToString()})";
+            $"({Left.ToString()} {Token.Literal} {Right.ToString()})";
     }
 }

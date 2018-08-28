@@ -6,14 +6,9 @@ namespace Smelter.AST.Expressions
     public class PrefixExpression : IExpression
     {
         public Token Token { get; set; }
-        public string Operator { get; set; }
         public IExpression Right { get; set; }
 
-        public PrefixExpression(Token token)
-        {
-            Token = token;
-            Operator = token.Literal;
-        }
+        public PrefixExpression(Token token) => Token = token;
 
         public IObj Evaluate(/*Memory memory*/)
         {
@@ -21,7 +16,7 @@ namespace Smelter.AST.Expressions
             if (right is Err)
                 return right;
 
-            switch (Operator)
+            switch (Token.Literal)
             {
                 case "!":
                     if (right is Bool)
@@ -32,14 +27,13 @@ namespace Smelter.AST.Expressions
                         return -(right as Int);
                     break;
                 default:
-                    return new Err($"Оператор не поддерживается: {Operator}{right.GetType()}");
+                    return new Err($"Данный префиксный оператор не поддерживается: {Token.Literal}{right.Type}");
             }
 
-            return new Err("Тип данных не поддерживает префиксное " +
-                $"выражение: {Operator}{right.GetType()}");
+            return new Err($"Для этого типа данных данный оператор недоступен: {Token.Literal}{right.Type}");
         }
 
         public override string ToString() =>
-            $"({Operator}{Right.ToString()})";
+            $"({Token.Literal}{Right.ToString()})";
     }
 }
