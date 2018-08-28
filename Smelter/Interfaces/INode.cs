@@ -4,6 +4,6 @@ namespace Smelter.Interfaces
 {
     public interface INode
     {
-        IObj Evaluate();
+        IObj Evaluate(Environment environment);
     }
 }

@@ -12,7 +12,15 @@ namespace Smelter.AST.Statements
 
         public DefStatement(Token token) => Token = token;
 
-        public IObj Evaluate() => Null.Ref;
+        public IObj Evaluate(Environment environment)
+        {
+            var value = Value.Evaluate(environment);
+            if (value is Err)
+                return value;
+
+            environment.RAM[Name.Value] = value;
+            return Null.Ref;
+        }
 
         public override string ToString() =>
             $"{Token.Literal} {Name} = {StringHelper.DefaultOrNull(Value)};";

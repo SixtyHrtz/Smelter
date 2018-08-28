@@ -10,9 +10,9 @@ namespace Smelter.AST.Expressions
 
         public PrefixExpression(Token token) => Token = token;
 
-        public IObj Evaluate(/*Memory memory*/)
+        public IObj Evaluate(Environment environment)
         {
-            var right = Right.Evaluate(/*memory*/);
+            var right = Right.Evaluate(environment);
             if (right is Err)
                 return right;
 

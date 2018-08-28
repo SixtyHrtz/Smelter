@@ -10,9 +10,9 @@ namespace Smelter.AST.Statements
 
         public RetStatement(Token token) => Token = token;
 
-        public IObj Evaluate(/*Memory memory*/)
+        public IObj Evaluate(Environment environment)
         {
-            var value = Value.Evaluate(/*memory*/);
+            var value = Value.Evaluate(environment);
             if (value is Err)
                 return value;
 

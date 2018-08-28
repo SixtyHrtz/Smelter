@@ -13,9 +13,9 @@ namespace Smelter.AST.Expressions
 
         public IfExpression(Token token) => Token = token;
 
-        public IObj Evaluate(/*Memory memory*/)
+        public IObj Evaluate(Environment environment)
         {
-            var condition = Condition.Evaluate(/*memory*/);
+            var condition = Condition.Evaluate(environment);
             if (condition is Err)
                 return condition;
 
@@ -24,9 +24,9 @@ namespace Smelter.AST.Expressions
                 var value = condition as Bool;
 
                 if (value.Value)
-                    return Consequence.Evaluate(/*memory*/);
+                    return Consequence.Evaluate(environment);
                 else if (Alternative != null)
-                    return Alternative.Evaluate(/*memory*/);
+                    return Alternative.Evaluate(environment);
             }
 
             return Null.Ref;

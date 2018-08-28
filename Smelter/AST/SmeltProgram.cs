@@ -10,13 +10,13 @@ namespace Smelter.AST
 
         public SmeltProgram() => Statements = new List<IStatement>();
 
-        public IObj Evaluate(/*Memory memory*/)
+        public IObj Evaluate(Environment environment)
         {
             var results = new List<IObj>();
 
             foreach (var statement in Statements)
             {
-                var value = statement.Evaluate(/*memory*/);
+                var value = statement.Evaluate(environment);
 
                 if (value is Ret)
                     return (value as Ret).Value;

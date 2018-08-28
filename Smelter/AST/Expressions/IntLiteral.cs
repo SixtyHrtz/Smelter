@@ -10,7 +10,7 @@ namespace Smelter.AST.Expressions
 
         public IntLiteral(Token token) => Token = token;
 
-        public IObj Evaluate(/*Memory memory*/) => new Int(Value);
+        public IObj Evaluate(Environment environment) => new Int(Value);
 
         public override string ToString() => Token.Literal;
     }

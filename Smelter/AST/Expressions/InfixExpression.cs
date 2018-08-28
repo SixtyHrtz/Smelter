@@ -16,13 +16,13 @@ namespace Smelter.AST.Expressions
             Left = left;
         }
 
-        public IObj Evaluate(/*Memory memory*/)
+        public IObj Evaluate(Environment environment)
         {
-            var left = Left.Evaluate(/*memory*/);
+            var left = Left.Evaluate(environment);
             if (left is Err)
                 return left;
 
-            var right = Right.Evaluate(/*memory*/);
+            var right = Right.Evaluate(environment);
             if (right is Err)
                 return right;
 

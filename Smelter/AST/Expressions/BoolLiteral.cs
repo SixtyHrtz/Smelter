@@ -10,7 +10,7 @@ namespace Smelter.AST.Expressions
 
         public BoolLiteral(Token token) => Token = token;
 
-        public IObj Evaluate(/*Memory memory*/) =>
+        public IObj Evaluate(Environment environment) =>
             (Value) ? Bool.True : Bool.False;
 
         public override string ToString() => Token.Literal;

@@ -29,8 +29,8 @@ namespace Smelter
 
         public string Run()
         {
-            //program.Evaluate(/*new Memory()*/);
-            return string.Join("\n", program.Evaluate()) + "\n";
+            var environment = new Environment();
+            return string.Join("\n", program.Evaluate(environment)) + "\n";
         }
 
         public override string ToString() => program.ToString();

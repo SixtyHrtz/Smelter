@@ -14,7 +14,12 @@ namespace Smelter.AST.Expressions
             Value = token.Literal;
         }
 
-        public IObj Evaluate() => Null.Ref;
+        public IObj Evaluate(Environment environment)
+        {
+            if (!environment.RAM.ContainsKey(Value))
+                return new Err($"Переменная не определена: {Value}");
+            return environment.RAM[Value];
+        }
 
         public override string ToString() => Value;
     }

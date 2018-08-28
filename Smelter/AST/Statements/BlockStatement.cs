@@ -15,11 +15,11 @@ namespace Smelter.AST.Statements
             Statements = new List<IStatement>();
         }
 
-        public IObj Evaluate(/*Memory memory*/)
+        public IObj Evaluate(Environment environment)
         {
             foreach (var statement in Statements)
             {
-                var value = statement.Evaluate(/*memory*/);
+                var value = statement.Evaluate(environment);
                 if (value is Ret || value is Err)
                     return value;
             }
