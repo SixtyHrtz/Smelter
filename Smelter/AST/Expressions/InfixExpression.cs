@@ -28,19 +28,19 @@ namespace Smelter.AST.Expressions
 
             if (left is Int && right is Int)
             {
-                var leftInteger = left as Int;
-                var rightInteger = right as Int;
+                var leftInt = left as Int;
+                var rightInt = right as Int;
 
                 switch (Token.Type)
                 {
-                    case TokenType.Plus: return leftInteger + rightInteger;
-                    case TokenType.Minus: return leftInteger - rightInteger;
-                    case TokenType.Asterisk: return leftInteger * rightInteger;
-                    case TokenType.Slash: return leftInteger / rightInteger;
-                    case TokenType.LowerThan: return leftInteger < rightInteger;
-                    case TokenType.GreaterThan: return leftInteger > rightInteger;
-                    case TokenType.Equals: return leftInteger == rightInteger;
-                    case TokenType.NotEquals: return leftInteger != rightInteger;
+                    case TokenType.Plus: return leftInt + rightInt;
+                    case TokenType.Minus: return leftInt - rightInt;
+                    case TokenType.Asterisk: return leftInt * rightInt;
+                    case TokenType.Slash: return leftInt / rightInt;
+                    case TokenType.GreaterThan: return leftInt > rightInt;
+                    case TokenType.LowerThan: return leftInt < rightInt;
+                    case TokenType.Equals: return leftInt == rightInt;
+                    case TokenType.NotEquals: return leftInt != rightInt;
                     default:
                         return new Err("Данный инфиксный оператор не поддерживается: " +
                             $"{left.Type} {Token.Literal} {right.Type}");
@@ -48,13 +48,28 @@ namespace Smelter.AST.Expressions
             }
             else if (left is Bool && right is Bool)
             {
-                var leftBoolean = left as Bool;
-                var rightBoolean = right as Bool;
+                var leftBool = left as Bool;
+                var rightBool = right as Bool;
 
                 switch (Token.Type)
                 {
-                    case TokenType.Equals: return leftBoolean == rightBoolean;
-                    case TokenType.NotEquals: return leftBoolean != rightBoolean;
+                    case TokenType.Equals: return leftBool == rightBool;
+                    case TokenType.NotEquals: return leftBool != rightBool;
+                    default:
+                        return new Err("Данный инфиксный оператор не поддерживается: " +
+                            $"{left.Type} {Token.Literal} {right.Type}");
+                }
+            }
+            else if (left is Str && right is Str)
+            {
+                var leftStr = left as Str;
+                var rightStr = right as Str;
+
+                switch (Token.Type)
+                {
+                    case TokenType.Plus: return leftStr + rightStr;
+                    case TokenType.Equals: return leftStr == rightStr;
+                    case TokenType.NotEquals: return leftStr != rightStr;
                     default:
                         return new Err("Данный инфиксный оператор не поддерживается: " +
                             $"{left.Type} {Token.Literal} {right.Type}");

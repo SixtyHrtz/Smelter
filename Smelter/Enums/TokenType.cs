@@ -7,6 +7,7 @@
 
         Identifier,
         Integer,
+        String,
 
         Assign,
         Plus,

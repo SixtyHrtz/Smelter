@@ -3,18 +3,18 @@ using Smelter.Objects;
 
 namespace Smelter.AST.Expressions
 {
-    public class IntLiteral : IExpression
+    public class StrLiteral : IExpression
     {
         public Token Token { get; set; }
-        public int Value { get; set; }
+        public string Value { get; set; }
 
-        public IntLiteral(Token token, int value)
+        public StrLiteral(Token token)
         {
             Token = token;
-            Value = value;
+            Value = token.Literal;
         }
 
-        public IObj Evaluate(Environment environment) => new Int(Value);
+        public IObj Evaluate(Environment environment) => new Str(Value);
 
         public override string ToString() => Token.Literal;
     }

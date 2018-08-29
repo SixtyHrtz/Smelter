@@ -8,7 +8,11 @@ namespace Smelter.AST.Expressions
         public Token Token { get; set; }
         public bool Value { get; set; }
 
-        public BoolLiteral(Token token) => Token = token;
+        public BoolLiteral(Token token, bool value)
+        {
+            Token = token;
+            Value = value;
+        }
 
         public IObj Evaluate(Environment environment) =>
             (Value) ? Bool.True : Bool.False;

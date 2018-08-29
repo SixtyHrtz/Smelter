@@ -34,6 +34,7 @@ namespace Smelter
             {
                 { TokenType.Identifier, ParseIdentifier },
                 { TokenType.Integer, ParseIntLiteral },
+                { TokenType.String, ParseStrLiteral },
                 { TokenType.True, ParseBoolLiteral },
                 { TokenType.False, ParseBoolLiteral },
                 { TokenType.Bang, ParsePrefixExpression },
@@ -201,7 +202,6 @@ namespace Smelter
             return statement;
         }
 
-
         private IExpression ParseExpression(Precedence precedence)
         {
             var prefixMethod = prefixMethods.GetValueOrDefault(token.Type);
@@ -232,8 +232,6 @@ namespace Smelter
 
         private IExpression ParseIntLiteral()
         {
-            var literal = new IntLiteral(token);
-
             if (!int.TryParse(token.Literal, out int value))
             {
                 string msg = $"Не удалось привести {token.Literal} " +
@@ -242,14 +240,13 @@ namespace Smelter
                 return null;
             }
 
-            literal.Value = value;
-            return literal;
+            return new IntLiteral(token, value);
         }
+
+        private IExpression ParseStrLiteral() => new StrLiteral(token);
 
         private IExpression ParseBoolLiteral()
         {
-            var literal = new BoolLiteral(token);
-
             if (!bool.TryParse(token.Literal, out bool value))
             {
                 string msg = $"Не удалось привести {token.Literal} " +
@@ -258,8 +255,7 @@ namespace Smelter
                 return null;
             }
 
-            literal.Value = value;
-            return literal;
+            return new BoolLiteral(token, value);
         }
 
         private IExpression ParsePrefixExpression()
@@ -322,7 +318,6 @@ namespace Smelter
 
             return expression;
         }
-
 
         private BlockStatement ParseBlockStatement()
         {

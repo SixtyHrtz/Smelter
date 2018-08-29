@@ -39,6 +39,7 @@ namespace Smelter
             Register('{', TokenType.LeftBrace);
             Register('}', TokenType.RightBrace);
             Register('\0', TokenType.EndOfFile);
+            Register('"', () => GetStringToken());
         }
 
         private void Register(char ch, Func<Token> func) =>
@@ -51,14 +52,30 @@ namespace Smelter
         {
             if (GetNextChar() != '=')
                 return new Token(TokenType.Assign, character);
-            return new Token(TokenType.Equals, character.ToString() + ReadChar());
+
+            return new Token(TokenType.Equals,
+                character.ToString() + ReadChar());
         }
 
         private Token GetBangToken()
         {
             if (GetNextChar() != '=')
                 return new Token(TokenType.Bang, character);
-            return new Token(TokenType.NotEquals, character.ToString() + ReadChar());
+
+            return new Token(TokenType.NotEquals,
+                character.ToString() + ReadChar());
+        }
+
+        private Token GetStringToken()
+        {
+            ReadChar();
+
+            var pos = position;
+            while (character != '"')
+                ReadChar();
+
+            return new Token(TokenType.String,
+                input.Substring(pos, position - pos));
         }
 
         private char GetNextChar() =>
@@ -66,7 +83,8 @@ namespace Smelter
 
         private char ReadChar()
         {
-            character = (nextPosition >= input.Length) ? '\0' : input[nextPosition];
+            character = (nextPosition >= input.Length)
+                ? '\0' : input[nextPosition];
             position = nextPosition++;
             return character;
         }
