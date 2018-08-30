@@ -20,7 +20,12 @@ namespace Smelter
                 variables[method.Parameters[i].Value] = arguments[i];
         }
 
-        public bool ContainsVariable(string name) => variables.ContainsKey(name);
+        public bool ContainsVariable(string name)
+        {
+            if (variables.ContainsKey(name))
+                return true;
+            return (OuterEnvironment == null) ? false : OuterEnvironment.ContainsVariable(name);
+        }
 
         public IObj GetVariable(string name)
         {
