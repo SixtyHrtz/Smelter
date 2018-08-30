@@ -18,7 +18,7 @@ namespace Smelter.AST.Statements
             if (value is Err)
                 return value;
 
-            environment.RAM[Name.Value] = value;
+            environment.SetVariable(Name.Value, value);
             return Null.Ref;
         }
 

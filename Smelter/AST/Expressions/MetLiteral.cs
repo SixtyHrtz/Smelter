@@ -14,7 +14,8 @@ namespace Smelter.AST.Expressions
 
         public MetLiteral(Token token) => Token = token;
 
-        public IObj Evaluate(Environment environment) => Null.Ref;
+        public IObj Evaluate(Environment environment) =>
+            new Met(environment, Parameters, Body);
 
         public override string ToString()
         {

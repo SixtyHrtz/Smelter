@@ -5,8 +5,30 @@ namespace Smelter
 {
     public class Environment
     {
-        public Dictionary<string, IObj> RAM { get; set; }
+        private readonly Dictionary<string, IObj> variables;
 
-        public Environment() => RAM = new Dictionary<string, IObj>();
+        public Environment OuterEnvironment { get; set; }
+
+        public Environment() => variables = new Dictionary<string, IObj>();
+
+        public Environment(Met method, List<IObj> arguments)
+        {
+            OuterEnvironment = method.Environment;
+
+            variables = new Dictionary<string, IObj>();
+            for (int i = 0; i < method.Parameters.Count; i++)
+                variables[method.Parameters[i].Value] = arguments[i];
+        }
+
+        public bool ContainsVariable(string name) => variables.ContainsKey(name);
+
+        public IObj GetVariable(string name)
+        {
+            if (variables.ContainsKey(name))
+                return variables[name];
+            return (OuterEnvironment == null) ? Null.Ref : OuterEnvironment.GetVariable(name);
+        }
+
+        public void SetVariable(string name, IObj value) => variables[name] = value;
     }
 }

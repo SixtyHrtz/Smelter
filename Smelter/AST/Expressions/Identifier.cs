@@ -16,9 +16,9 @@ namespace Smelter.AST.Expressions
 
         public IObj Evaluate(Environment environment)
         {
-            if (!environment.RAM.ContainsKey(Value))
+            if (!environment.ContainsVariable(Value))
                 return new Err($"Переменная не определена: {Value}");
-            return environment.RAM[Value];
+            return environment.GetVariable(Value);
         }
 
         public override string ToString() => Value;
